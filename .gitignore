@@ -5,10 +5,7 @@ target/
 .kotlin
 
 ### IntelliJ IDEA ###
-.idea/modules.xml
-.idea/jarRepositories.xml
-.idea/compiler.xml
-.idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -37,3 +34,7 @@ build/
 
 ### Mac OS ###
 .DS_Store
+Thumbs.db
+
+# 忽略全部测试代码（src/test整个目录）
+src/test/
