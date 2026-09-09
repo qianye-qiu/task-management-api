@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
+//用户
 public class User {
 
     private UUID id;

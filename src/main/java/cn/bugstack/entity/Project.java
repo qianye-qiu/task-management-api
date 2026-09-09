@@ -5,6 +5,7 @@ import cn.bugstack.entityEnum.ProjectStatus;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+//任务所属项目
 public class Project {
 
     private UUID id;
@@ -21,11 +22,14 @@ public class Project {
 
     private LocalDateTime updateTime;
 
-    public Project(String name, String description, ProjectStatus status, UUID ownerId) {
+    public Project(String name, String description, UUID ownerId, ProjectStatus status) {
+        this.id = UUID.randomUUID();
         this.name = name;
         this.description = description;
-        this.status = status;
         this.ownerId = ownerId;
+        this.status = status;
+        this.createTime = LocalDateTime.now();
+        this.updateTime = this.createTime;
     }
 
     public UUID getId() {

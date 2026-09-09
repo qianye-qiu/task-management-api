@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
+//任务
 public class Task {
 
     private UUID id;
@@ -27,10 +28,13 @@ public class Task {
 
     public Task(String title, String description, TaskStatus status,
                 TaskPriority priority, LocalDateTime dueDate) {
+        this.id = UUID.randomUUID();
         this.title = title;
         this.description = description;
         this.status = status;
         this.priority = priority;
+        this.createTime = LocalDateTime.now();
+        this.updateTime = this.createTime;
         this.dueDate = dueDate;
     }
 
