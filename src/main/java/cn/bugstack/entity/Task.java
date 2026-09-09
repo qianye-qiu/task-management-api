@@ -2,6 +2,7 @@ package cn.bugstack.entity;
 
 import cn.bugstack.entityEnum.TaskPriority;
 import cn.bugstack.entityEnum.TaskStatus;
+import cn.bugstack.exception.InvalidStateException;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -80,21 +81,21 @@ public class Task {
 
     public void start() {
         if(status != TaskStatus.TODO){
-            throw new IllegalStateException("Only TODO task can be started");
+            throw new InvalidStateException("Only TODO task can be started");
         }
         this.status = TaskStatus.IN_PROGRESS;
     }
 
     public void complete(){
         if(status != TaskStatus.IN_PROGRESS){
-            throw new IllegalStateException("Only IN_PROGRESS task can be completed");
+            throw new InvalidStateException("Only IN_PROGRESS task can be completed");
         }
         this.status = TaskStatus.COMPLETED;
     }
 
     public void cancel(){
         if(status == TaskStatus.COMPLETED){
-            throw new IllegalStateException("COMPLETED task cannot be canceled");
+            throw new InvalidStateException("COMPLETED task cannot be canceled");
         }
         this.status = TaskStatus.CANCELLED;
     }
