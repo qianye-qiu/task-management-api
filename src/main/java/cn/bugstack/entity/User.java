@@ -24,10 +24,13 @@ public class User {
     private LocalDateTime updateTime;
 
     public User(String name, String email, String password) {
+        this.id = UUID.randomUUID();
         this.name = name;
         this.email = email;
         this.password = password;
         this.status = UserStatus.ACTIVE;
+        this.createTime = LocalDateTime.now();
+        this.updateTime = this.createTime;
     }
 
     public UUID getId() {
@@ -60,17 +63,21 @@ public class User {
 
     public void changeName(String name) {
         this.name = name;
+        this.updateTime = LocalDateTime.now();
     }
 
     public void changeEmail(String email) {
         this.email = email;
+        this.updateTime = LocalDateTime.now();
     }
 
     public void changePassword(String password) {
         this.password = password;
+        this.updateTime = LocalDateTime.now();
     }
 
     public void disable() {
         this.status = UserStatus.DISABLED;
+        this.updateTime = LocalDateTime.now();
     }
 }
