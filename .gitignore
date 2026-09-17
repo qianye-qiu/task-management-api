@@ -37,4 +37,4 @@ build/
 Thumbs.db
 
 # 忽略全部测试代码（src/test整个目录）
-src/test/
+#src/test/

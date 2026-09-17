@@ -1,15 +1,23 @@
 package cn.bugstack.repository;
 
 import cn.bugstack.entity.Task;
+import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
-public class InMemoryTaskRepository implements Repository<UUID, Task> {
+@Repository
+public class InMemoryTaskRepository implements TaskRepository {
 
-    private final Map<UUID, Task> storage = new HashMap<>();
+    private final ConcurrentMap<UUID, Task> storage = new ConcurrentHashMap<>();
+
+    @Override
+    public List<Task> findAll() {
+        return List.copyOf(storage.values());
+    }
 
     @Override
     public Optional<Task> findById(UUID id) {
