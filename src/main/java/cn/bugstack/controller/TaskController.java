@@ -49,7 +49,7 @@ public class TaskController {
     }
 
     @PatchMapping("/{id}")
-    public TaskResponse update(@PathVariable UUID id, @RequestBody UpdateTaskRequest request) {
+    public TaskResponse update(@PathVariable UUID id, @Valid @RequestBody UpdateTaskRequest request) {
         return service.update(id, request);
     }
 

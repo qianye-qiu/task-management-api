@@ -42,13 +42,27 @@ mvn spring-boot:run
   "projectId": "00000000-0000-0000-0000-000000000001",
   "assigneeId": null,
   "priority": "HIGH",
-  "dueDate": "2026-09-30T18:00:00"
+  "dueDate": null
 }
 ```
 
 `title`、`projectId`、`priority` 必填，标题不能全为空白。`description`、`assigneeId`、`dueDate` 可省略。
 优先级为 `LOW`、`MEDIUM`、`HIGH` 或 `URGENT`。新任务状态固定为 `TODO`。
 当前仅校验项目和负责人 ID 格式，不校验关联记录是否存在。
+
+创建和更新请求使用 `CreateTaskRequest`、`UpdateTaskRequest`，统一返回 `TaskResponse`，不直接返回实体。
+请求参数校验规则：
+
+| 字段 | 规则 |
+| --- | --- |
+| title | 创建时必填；非空白，最多 100 字符 |
+| description | 可选，最多 2000 字符，允许空字符串 |
+| dueDate | 可选；填写时必须是合法的 ISO 本地日期时间，例如 `yyyy-MM-ddTHH:mm:ss`，且晚于服务器当前时间；不带时区 |
+| priority | 创建时必填；只接受上述四个枚举名称，不接受数字序号或非法名称 |
+
+更新时对非 null 字段执行同样的校验；校验失败返回 HTTP 400，数据和更新时间均保持不变。
+例如过长标题的错误响应包含 `"status":400`，以及 `detail` 中的 `title must be at most 100 characters`；
+非法优先级或日期格式的错误响应包含 `"status":400` 和 `Request body must be valid JSON with valid field values`。
 
 PATCH 支持 `title`、`description`、`priority`、`dueDate`。例如 `{"title":"新标题"}` 只修改标题；省略或设为 `null` 的字段保持原值，空对象为无操作。描述可用空字符串清空。
 原有状态操作保留为 `POST /api/tasks/{id}/start`、`/complete`、`/cancel`。

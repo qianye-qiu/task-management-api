@@ -13,11 +13,11 @@ function Invoke-ApiCurl {
     param([string]$Method, [string]$Path, [int]$ExpectedStatus, [object]$Body = $null)
 
     $curlArguments = @('--silent', '--show-error', '--max-time', '15',
-        '--request', $Method, '--output', $responseFile, '--write-out', '%{http_code}',
-        '--header', 'Accept: application/json')
+    '--request', $Method, '--output', $responseFile, '--write-out', '%{http_code}',
+    '--header', 'Accept: application/json')
     if ($null -ne $Body) {
         [System.IO.File]::WriteAllText($requestFile, ($Body | ConvertTo-Json -Depth 10),
-            [System.Text.UTF8Encoding]::new($false))
+                [System.Text.UTF8Encoding]::new($false))
         $curlArguments += @('--header', 'Content-Type: application/json', '--data-binary', "@$requestFile")
     }
     $curlArguments += "$BaseUrl$Path"
@@ -40,7 +40,7 @@ try {
         description = 'Keep this description'
         projectId = [guid]::NewGuid().ToString()
         priority = 'HIGH'
-        dueDate = '2026-09-30T18:00:00'
+        dueDate = (Get-Date).AddDays(30).ToString('yyyy-MM-ddTHH:mm:ss')
     }
     $taskId = $created.id
     if (-not $taskId) { throw 'Create response must contain an id' }
