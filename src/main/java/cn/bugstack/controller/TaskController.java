@@ -38,7 +38,7 @@ public class TaskController {
         return ResponseEntity.created(URI.create("/api/tasks/" + task.id())).body(task);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public List<TaskResponse> list() {
         return service.list();
     }

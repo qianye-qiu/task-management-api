@@ -3,6 +3,7 @@ package cn.bugstack.controller;
 import cn.bugstack.exception.DomainException;
 import cn.bugstack.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -15,6 +16,11 @@ import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+    @ExceptionHandler(OptimisticLockingFailureException.class)
+    public ResponseEntity<ProblemDetail> concurrentUpdate(OptimisticLockingFailureException exception) {
+        return error(HttpStatus.CONFLICT, "Task changed concurrently; reload it and retry");
+    }
+
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ProblemDetail> notFound(ResourceNotFoundException exception) {
         return error(HttpStatus.NOT_FOUND, exception.getMessage());
